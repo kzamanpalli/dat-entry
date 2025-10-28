@@ -114,3 +114,30 @@ You can schedule this script to run automatically.
     0 8 * * 1 /usr/bin/python3 /path/to/your/project/main.py
     ```
 -   **On Windows:** Use the Task Scheduler. Create a new task that runs `python.exe` with the argument `/path/to/your/project/main.py` on your desired schedule.
+
+---
+
+## Command-line Task Manager
+
+This repository also includes a standalone task manager CLI application that you can use to keep track of personal to-dos. The tool stores data in a local SQLite database (`tasks.db`) that lives next to the script.
+
+### Quick Start
+
+Run the commands below from the project root:
+
+```bash
+python task_manager.py add "Draft client proposal" --due 2024-05-15 -p high
+python task_manager.py list
+```
+
+### Available Commands
+
+| Command | Description | Example |
+| --- | --- | --- |
+| `add` | Create a task with optional description, due date, and priority (`high`, `medium`, `low` or `1-3`). | `python task_manager.py add "Pay invoices" -d "Clients A & B" --due 2024-05-01 -p low` |
+| `list` | Display pending tasks by default. Use `--all` to include completed ones, `--completed` to show only finished work, or `--overdue` to focus on late tasks. | `python task_manager.py list --overdue --sort priority` |
+| `complete` | Mark a task as completed. | `python task_manager.py complete 3` |
+| `update` | Modify title, description, due date, priority, or status. Combine with `--clear-due` to remove an existing due date. | `python task_manager.py update 2 --priority high --status completed` |
+| `delete` | Remove a task permanently. | `python task_manager.py delete 5` |
+
+The application prints a compact table so you can quickly scan task status. Data is saved automatically after every command, so you can exit and return later without losing progress.
